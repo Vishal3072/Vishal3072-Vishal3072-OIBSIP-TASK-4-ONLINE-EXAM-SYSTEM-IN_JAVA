@@ -1,0 +1,163 @@
+import java.util.*;
+
+public class OnlineExamSystem {
+    private String username;
+    private String password;
+    private boolean isLoggedIn;
+    private int timeRemaining;
+    private int questionCount;
+    private int[] userAnswers;
+    private int[] correctAnswers;
+
+   public OnlineExamSystem(String username, String password) {
+      this.username = username;
+      this.password = password;
+      System.out.println("Sucessfully You are registered! :)");
+      this.isLoggedIn = false;
+      this.timeRemaining = 10; // in minutes
+      this.questionCount = 10;
+      this.userAnswers = new int[questionCount];
+      this.correctAnswers = new int[questionCount];
+      
+      for (int i = 0; i < questionCount; i++) {
+    	  correctAnswers[i] = (int) Math.round(Math.random());
+    	  }
+      }
+   public void login() {
+	   System.out.println("Log in to give the Exam");
+	   Scanner scanner = new Scanner(System.in);
+	   System.out.print("Username: ");
+	   String inputUsername = scanner.nextLine();
+	   System.out.print("Password: ");
+	   String inputPassword = scanner.nextLine();
+	   
+	   if (inputUsername.equals(username) && inputPassword.equals(password)) {
+		   isLoggedIn = true;
+		   System.out.println("Login successful Best of Luck Dear");
+		   }
+	   else {
+		   System.out.println("Login failed. Please try again.");
+		   }
+	   }
+   public void logout() {
+	   isLoggedIn = false;
+	   System.out.println("Logout successful.");
+	   }
+   public void startExam() {
+	  
+	   if (!isLoggedIn) {
+		   System.out.println("Please login first.");
+		   return;
+		   }
+	   Scanner scanner = new Scanner(System.in);
+	   System.out.println("You have " + timeRemaining + " minutes to complete the exam.");
+	   
+	   for (int i = 0; i < questionCount; i++) {
+		   System.out.println("Question " + (i + 1) + ":");
+		   System.out.println("1. Option 1");
+		   System.out.println("2. Option 2");
+		   System.out.print("Your answer (1 of 2): ");
+		   int answer = scanner.nextInt();
+		   
+		   userAnswers[i] = answer;
+		   }
+	   System.out.println("Would you like to submit? \n1:Yes \n2:NO ");
+	   int n = scanner.nextInt();
+	   
+	   if (n==1) {
+		   submitExam();
+		   }
+	   else {
+		   try {
+			   Thread.sleep(timeRemaining * 10 * 1000);
+			   } catch (InterruptedException e) {
+				   e.printStackTrace();
+				   submitExam();
+				   }
+		   }
+	   }
+   public void submitExam() {
+	   if (!isLoggedIn) {
+		   System.out.println("Please login first.");
+		   return;
+		   }
+	   int score = 0;
+	   for (int i = 0; i < questionCount; i++) {
+		   if (userAnswers[i] == correctAnswers[i]) {
+			   score++;
+			   }
+		   }
+	   System.out.println("Your score is " + score + " out of"+ questionCount +".");
+	   System.out.println("Best of luck :)");
+	   logout();
+	   }
+   public static void main(String[] args) {
+	   
+	   Scanner sc = new Scanner(System.in);
+	   System.out.println("Enter your username and password");
+	   String uName = sc.nextLine();
+	   String pword = sc.nextLine();
+	   OnlineExamSystem examSystem = new OnlineExamSystem(uName, pword);
+	   examSystem.login();
+	   examSystem.startExam();
+	   }
+   }
+
+
+Output-
+Enter your username and password
+Vishal Satpute
+123456789
+Sucessfully You are registered! :)
+Log in to give the Exam
+Username: Vishal Satpute
+Password: 123456789
+Login successful Best of Luck Dear
+You have 10 minutes to complete the exam.
+Question 1:
+1. Option 1
+2. Option 2
+Your answer (1 of 2): 2
+Question 2:
+1. Option 1
+2. Option 2
+Your answer (1 of 2): 1
+Question 3:
+1. Option 1
+2. Option 2
+Your answer (1 of 2): 2
+Question 4:
+1. Option 1
+2. Option 2
+Your answer (1 of 2): 2
+Question 5:
+1. Option 1
+2. Option 2
+Your answer (1 of 2): 1
+Question 6:
+1. Option 1
+2. Option 2
+Your answer (1 of 2): 1
+Question 7:
+1. Option 1
+2. Option 2
+Your answer (1 of 2): 2
+Question 8:
+1. Option 1
+2. Option 2
+Your answer (1 of 2): 2
+Question 9:
+1. Option 1
+2. Option 2
+Your answer (1 of 2): 1
+Question 10:
+1. Option 1
+2. Option 2
+Your answer (1 of 2): 1
+Would you like to submit? 
+1:Yes 
+2:NO 
+1
+Your score is 3 out of10.
+Best of luck :)
+Logout successful.
